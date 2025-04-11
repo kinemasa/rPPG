@@ -58,8 +58,7 @@ def perform_machine_learning(X_train, X_test, y_train_sbp, y_train_dbp,model_lis
 
     results = {}
     selected_features = {}
-    trained_models = {}  # ✅ モデル格納用
-    
+    trained_models = {}  
     
     for model_name in model_list:
         for target, y_train, y_test, model_key in [("sbp", y_train_sbp, y_train_sbp, f"{model_name}_sbp"),
@@ -171,57 +170,3 @@ def estimate_bp(feature_array, bp_array, num_subjects, num_experiments,
 
     return mae_list,predictions_dict,selected_features_sbp_count,selected_features_dbp_count,trained_models
 
-# def estimate_bp(feature_array, bp_array, num_subjects, num_trials_per_subject):
-#     sbp_ref, dbp_ref = [], []
-#     results_all = {}
-#     selected_sbp_count = [0] * feature_array.shape[2]
-#     selected_dbp_count = [0] * feature_array.shape[2]
-
-#     for test_idx in range(num_subjects):
-#         train_idx = np.delete(np.arange(num_subjects), test_idx)
-
-#         # 特徴量
-#         X_train = np.concatenate([feature_array[i] for i in train_idx])
-#         X_test = feature_array[test_idx]
-
-#         # 血圧（試行回数に応じて動的に取得）
-#         y_train = np.concatenate([
-#             bp_array[num_trials_per_subject * i : num_trials_per_subject * (i + 1)]
-#             for i in train_idx
-#         ])
-#         y_test = bp_array[
-#             num_trials_per_subject * test_idx : num_trials_per_subject * (test_idx + 1)
-#         ]
-
-#         # SBP, DBP 分離
-#         y_train_sbp, y_train_dbp = y_train[:, 0], y_train[:, 1]
-#         y_test_sbp, y_test_dbp = y_test[:, 0], y_test[:, 1]
-
-#         # 欠損処理
-#         X_train = np.nan_to_num(X_train, nan=np.nanmean(X_train))
-#         X_test = np.nan_to_num(X_test, nan=np.nanmean(X_test))
-
-#         # 学習・予測
-#         pred_dict, selected = perform_machine_learning(X_train, X_test, y_train_sbp, y_train_dbp)
-
-#         sbp_ref.extend(y_test_sbp)
-#         dbp_ref.extend(y_test_dbp)
-
-#         for k, v in pred_dict.items():
-#             results_all.setdefault(k, []).extend(v)
-
-#         for i in selected["sbp"]:
-#             selected_sbp_count[i] += 1
-#         for i in selected["dbp"]:
-#             selected_dbp_count[i] += 1
-
-#     estimated_arrays = [
-#         np.array(results_all["sbp_rf_all"]), np.array(results_all["dbp_rf_all"]),
-#         np.array(results_all["sbp_rf_rfe"]), np.array(results_all["dbp_rf_rfe"])
-#     ]
-
-#     mae_list = calc_metrics(
-#         np.array(sbp_ref), np.array(dbp_ref), estimated_arrays,
-#         selected["sbp"], selected["dbp"]
-#     )
-#     return mae_list, estimated_arrays[0], estimated_arrays[1]
