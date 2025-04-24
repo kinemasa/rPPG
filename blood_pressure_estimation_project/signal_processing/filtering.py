@@ -18,13 +18,6 @@ def bandpass_filter_pulse(pulse_detrended, bandpass_filter_range_hz, sampling_ra
     return pulse_bandpass_filtered
 
 
-def detect_pulse_peak(pulse_bandpass_filtered, sampling_rate):
-    # ピーク検出
-    peak_indexes = signal.argrelmax(pulse_bandpass_filtered, order=int(sampling_rate / 3.0))[0]
-    valley_indexes = signal.argrelmin(pulse_bandpass_filtered, order=int(sampling_rate / 3.0))[0]
-
-    return peak_indexes, valley_indexes
-
 def detrend_signal(signal_data: np.ndarray):
     #傾き除去
     return signal.detrend(signal_data)
