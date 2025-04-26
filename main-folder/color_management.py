@@ -1,9 +1,20 @@
 import glob
 import os
 from pathlib import Path
-from color_management.calibration import calibrate_image
-from color_management.utils import select_folder
-from color_management_project.color_management.config import observer, illumination, colorchecker, colorspace, output_foldername,method
+
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from color_management_project.color_management.color_management.calibration import calibrate_image
+from mycommon.select_folder import select_folder
+
+## =========config==============
+observer = "CIE 1931 2 Degree Standard Observer"
+illumination = "D65"
+colorchecker = "ColorChecker24 - After November 2014"
+colorspace = "sRGB"
+output_foldername = "result-new-calibration-2015-d2-1"
+method ="Finlayson 2015"
+## ==============================
 
 def main():
     folder_num = 1
