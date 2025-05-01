@@ -5,7 +5,7 @@ from scipy import signal
 
 from common.utils import select_folder
 
-from signal_processing.filtering import bandpass_filter_pulse
+from blood_pressure_estimation_project.signal_processing.signal import bandpass_filter_pulse
 from signal_processing.peak_detection import detect_pulse_peak
 from signal_processing.get_feature import calc_contour_features,calc_dr_features
 from signal_processing.analyze import analyze_pulses,select_pulses_by_statistics,upsample_data
@@ -16,13 +16,7 @@ current_path = Path(__file__)
 parent_path = current_path.parent   
 config = load_config(str(parent_path)+"\\config\\config_0102.yaml")
 
-from common.config import (
-    DEFAULT_BANDPASS_RANGE_HZ,
-    DEFAULT_SAMPLING_RATE,
-    DEFAULT_CAPTURE_TIME,
-    DEFAULT_OUTPUT_FOLDER_NAME,
-    RESAMPLING_RATE
-)
+
 DEFAULT_BANDPASS_RANGE_HZ = config["preprocessing"]["bandpass_range_hz"]
 DEFAULT_SAMPLING_RATE     = config["preprocessing"]["sampling_rate"]
 DEFAULT_CAPTURE_TIME      = config["preprocessing"]["capture_time"]

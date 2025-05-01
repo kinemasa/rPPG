@@ -4,7 +4,7 @@
 
 from common.imports import np, plt, signal, glob, os, Path, natsorted
 from common.pulse_preprocess import bandpass_filter_pulse, detect_pulse_peak,detrend_signal,extract_green_signal
-from common.visualize import visualize_pulse
+from blood_pressure_estimation_project.signal_processing.visualize import visualize_pulse
 
 
 from common.config import (

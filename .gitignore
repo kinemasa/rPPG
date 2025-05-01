@@ -183,3 +183,5 @@ cython_debug/
 **.txt
 **.yaml
 **.avi
+**.pkl
+**.npy

@@ -2,6 +2,7 @@ import os
 import joblib
 import pandas as pd
 import pickle
+import numpy as np
 
 def save_best_params( best_params, output_file="best_params.txt"):
     """
@@ -48,7 +49,7 @@ def save_model(model, model_name, target, select,save_dir="saved_models"):
     filepath = os.path.join(save_dir, filename)
     joblib.dump(model, filepath)
     
-def save_all_models(models_dict, save_dir="saved_models_all"):
+def save_all_models(models_dict,selected_features_dict=None, save_dir="saved_models_all"):
     """
     モデル辞書を一括でPickle形式で保存する。
 
@@ -70,6 +71,16 @@ def save_all_models(models_dict, save_dir="saved_models_all"):
         with open(file_path, "wb") as f:
             pickle.dump(model, f)
         print(f"Saved model: {file_path}")
+        print(key)
+    # RFEの特徴量インデックスも保存（もし存在すれば）
+        if selected_features_dict and key in selected_features_dict:
+            
+            feature_idx = selected_features_dict[key]
+            idx_path = os.path.join(save_dir, f"{key}_selected_features.npy")
+            np.save(idx_path, feature_idx)
+            print(f"[INFO] Saved selected features: {idx_path}")
+        else :
+            print("[INFO] No selected features")
 
 
 def save_selected_features(model_name, target, selected_features, output_file="selected_features.txt"):

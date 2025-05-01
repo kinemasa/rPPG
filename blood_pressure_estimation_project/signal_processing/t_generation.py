@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
-from signal_processing.analyze import upsample_data
+from .analyze import upsample_data
 
 def generate_t1(
     pulse_bandpass_filtered, valley_indexes,
@@ -43,14 +43,16 @@ def generate_t1(
 
     mean_for_plot_t1 /= acceptable_pulse_num
     mean_for_plot_t1 /= max(mean_for_plot_t1)
-    plt.plot(mean_for_plot_t1, color="orange", lw=3)
-    plt.xlabel("Frame")
-    plt.ylabel("Amplitude")
-    plt.title("Average Pulse (t1)")
-    plt.tick_params(labelsize=12)
-    plt.tight_layout()
-    plt.show()
-    plt.close()
+    
+    #　可視化用関数
+    # plt.plot(mean_for_plot_t1, color="orange", lw=3)
+    # plt.xlabel("Frame")
+    # plt.ylabel("Amplitude")
+    # plt.title("Average Pulse (t1)")
+    # plt.tick_params(labelsize=12)
+    # plt.tight_layout()
+    # plt.show()
+    # plt.close()
 
     # 最終平均波形 t1
     t1 = np.mean(pulse_waveform_upsampled_list, axis=0)
@@ -100,17 +102,18 @@ def generate_t2(t1, pulse_waveform_upsampled_list, pulse_waveform_original_list,
     pulse_for_t2_plot = pulse_waveform_original_list[filtered_idx]
     t2_plot = np.mean(pulse_for_t2_plot, axis=0)
     plt.rcParams["font.size"] = 14
+    
+    ## 可視化用関数
+    # for pulse_for_t2 in pulse_for_t2_plot:
+    #     plt.plot(pulse_for_t2, color="skyblue")
                 
-    for pulse_for_t2 in pulse_for_t2_plot:
-        plt.plot(pulse_for_t2, color="skyblue")
-                
-    plt.plot(t2_plot, color="orange", lw=3)
-    plt.xlabel("Frame")
-    plt.ylabel("Amplitude")
-    plt.title("Average Pulse (t2)")
-    plt.tick_params(labelsize=12)
-    plt.tight_layout()
-    plt.show()
-    plt.close()
+    # plt.plot(t2_plot, color="orange", lw=3)
+    # plt.xlabel("Frame")
+    # plt.ylabel("Amplitude")
+    # plt.title("Average Pulse (t2)")
+    # plt.tick_params(labelsize=12)
+    # plt.tight_layout()
+    # # plt.show()
+    # # plt.close()
     
     return t2

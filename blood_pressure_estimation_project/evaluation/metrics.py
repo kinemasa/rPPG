@@ -4,7 +4,7 @@ from sklearn.metrics import mean_absolute_error
 
 
 def calc_metrics(sbp_reference_array, dbp_reference_array, estimated_arrays,
-                 selected_features_sbp, selected_features_dbp, ml_algorithm_feature_list):
+                 selected_features_sbp, selected_features_dbp, ml_algorithm_feature_list,selected):
     """
     各モデル・条件における血圧推定結果に対し、様々な評価指標を計算・出力する。
     評価項目：MAE, 相対誤差, Mean bias, SD, AAMI/BHS基準, 相関係数, 散布図保存
@@ -73,7 +73,7 @@ def calc_metrics(sbp_reference_array, dbp_reference_array, estimated_arrays,
         results.append((ml_algorithm_feature, mae_sbp, mae_dbp, relative_error_sbp, relative_error_dbp,
                         me_sbp, me_dbp, sd_sbp, sd_dbp, sbp_aami, dbp_aami, sbp_ratios, dbp_ratios,
                         corr_sbp, corr_dbp))
-
+        print(selected)
     # 評価結果をファイルに保存
     with open("mae_results.txt", "a") as f:
         for r in results:
@@ -87,11 +87,17 @@ def calc_metrics(sbp_reference_array, dbp_reference_array, estimated_arrays,
             f.write(f"BHS DBP (<5,10,15): {r[12][0]:.2f}, {r[12][1]:.2f}, {r[12][2]:.2f} => {r[12][3]}\n")
             f.write(f"Correlation SBP: {r[13]:.3f} | DBP: {r[14]:.3f}\n\n")
 
-        if selected_features_sbp:
-            f.write(f"Selected Features for SBP: {selected_features_sbp}\n")
-        if selected_features_dbp:
-            f.write(f"Selected Features for DBP: {selected_features_dbp}\n")
-        f.write("\n")
+        model_name, sel = ml_algorithm_feature.split("_")
+        key_sbp = f"{model_name}_sbp_{sel}"
+        key_dbp = f"{model_name}_dbp_{sel}"
+
+        if key_sbp in selected:
+            f.write(f"Selected Features for SBP: {selected[key_sbp]}\n")
+            f.write(f"Selected num{selected_features_sbp}\n")
+        if key_dbp in selected:
+            f.write(f"Selected Features for DBP: {selected[key_dbp]}\n")
+            f.write(f"Selected num{selected_features_dbp}\n")
+
 
     return mae_dict
 

@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import signal
-from signal_processing.filtering import bandpass_filter_pulse
+from blood_pressure_estimation_project.signal_processing.signal import bandpass_filter_pulse
 
 def get_nearest_value(array, query):
     index = np.abs(np.asarray(array) - query).argmin()
