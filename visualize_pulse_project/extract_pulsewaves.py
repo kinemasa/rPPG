@@ -31,9 +31,9 @@ USE_FOLDER_FOR_INPUT = True # True: 入力データとしてフォルダを指�
 INPUT_FILES = np.array([])
 
 # USE_FOLDER_FOR_INPUTがTrueの場合，これら変数で指定するフォルダ下のファイルを全て入力する．
-INPUT_FOLDER = "c:\\Users\\kine0\\tumuraLabo\\programs\\rPPG\\rPPG\\UBFC-dataset-test"
+INPUT_FOLDER = "c:\\Users\\kine0\\tumuraLabo\\programs\\rPPG\\rPPG\\data\\rppg-test\\subject1-1"
 
-OUTPUT_FOLDER = 'c:\\Users\\kine0\\tumuraLabo\\programs\\rPPG\\rPPG\\UBFC-data-output-test'
+OUTPUT_FOLDER = 'c:\\Users\\kine0\\tumuraLabo\\programs\\rPPG\\rPPG\\data\\rppg-test-result\\'
 os.makedirs(OUTPUT_FOLDER,exist_ok=True)
 
 
@@ -42,8 +42,8 @@ USE_ALL_FILES = True # True: データ群を全て使用する | False: デー�
 # USE_ALL_FILESがFalseの場合，入力データ群の中で使用するファイルのインデックス
 USE_FILE_INDXS = np.array([5])
 
-SEG = 3 #　平均化フィルタのサイズ
-STRIDE = 1 # スライドサイズ
+SEG = 30 #　平均化フィルタのサイズ
+STRIDE = 5 # スライドサイズ
 
 # 平均値フィルタを適用する関数
 def mean_filter(img, kernel_size, stride):
@@ -111,8 +111,10 @@ def extract_ippg_2d(filepath, output_folder, size_kernel, size_stride):
         file = filepath[n]  # パスの取得
         filename = os.path.basename(file)  # ファイル名の取得
         filename = os.path.splitext(filename)[0]  # 拡張子の除去
+        
         # bmpファイルリスト
-        imgs = sorted(glob.glob(file + '/*.png'))
+        print(file)
+        imgs = sorted(filepath)
 
         img_tmp = cv2.imread(imgs[0])
         height, width = calc_img_size(img_tmp, kernel_size=size_kernel, stride=size_stride)
@@ -168,7 +170,7 @@ if __name__ == '__main__':
 
     """ [2] 動画データのファイルパスを整理 """
     filepaths = blp.extract_filepaths_for_use(INPUT_FILES, USE_ALL_FILES, USE_FILE_INDXS, USE_FOLDER_FOR_INPUT, INPUT_FOLDER)
-
+    print(filepaths)
     """ [3] ROI設定・脈波抽出を行う． """
     extract_ippg_2d(filepaths, output_folder, size_kernel=SEG, size_stride=STRIDE)
 

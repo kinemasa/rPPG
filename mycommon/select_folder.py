@@ -16,11 +16,11 @@ def select_folder(message="フォルダを選択してください"):
 
     return folder_path
 
-def select_file(message="ファイルを選択してください", filetypes=(("画像ファイル", "*.png;*.jpg;*.jpeg"), ("すべてのファイル", "*.*"))):
+def select_file(message="ファイルを選択してください"):
     root = tk.Tk()
     root.withdraw()
     print(message)
-    file_path = filedialog.askopenfilename(title=message, filetypes=filetypes)
+    file_path = filedialog.askopenfilename(title=message)
     if file_path:
         print("選択されたファイル:", file_path)
     else:
