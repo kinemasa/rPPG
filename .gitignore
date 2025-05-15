@@ -180,7 +180,6 @@ cython_debug/
 **.jpeg
 **.png
 **.csv
-**.txt
 **.yaml
 **.avi
 **.pkl
